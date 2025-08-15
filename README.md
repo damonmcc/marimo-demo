@@ -24,7 +24,7 @@ uvx marimo edit --sandbox my_notebook.py
 ```bash
 # setup
 uv venv
-uv sync requirements.txt
+uv pip sync requirements.txt
 source .venv/bin/activate
 # use
 marimo tutorial intro
@@ -44,4 +44,4 @@ marimo edit my_notebook.py
 
 1. Edit `requirements.in`
 2. Run `uv pip compile requirements.in -o requirements.txt`
-3. Run `uv sync requirements.txt`
+3. Run `uv pip sync requirements.txt`
