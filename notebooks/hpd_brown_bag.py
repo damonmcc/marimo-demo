@@ -96,7 +96,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### interactive UI elements
+    ### Interactive UI elements
     """)
     return
 
@@ -169,7 +169,7 @@ def _(mo):
     - have interactive elements built-in
     - stored as pure Python
     - versionable with Git
-    - deployable as web apps,
+    - deployable as web apps
     - executable as scripts
 
     [marimo docs - What problems does marimo solve?](https://docs.marimo.io/faq/#faq-problems)
