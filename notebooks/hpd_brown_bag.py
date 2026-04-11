@@ -96,7 +96,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### interactive UI elements
+    ### Interactive UI elements
     """)
     return
 
@@ -169,7 +169,7 @@ def _(mo):
     - have interactive elements built-in
     - stored as pure Python
     - versionable with Git
-    - deployable as web apps,
+    - deployable as web apps
     - executable as scripts
 
     [marimo docs - What problems does marimo solve?](https://docs.marimo.io/faq/#faq-problems)
@@ -419,13 +419,36 @@ def _(mo):
     _df = mo.sql(
         f"""
         SELECT
+            COUNT(*) AS row_count,
+        FROM read_parquet('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-02.parquet')
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    _df = mo.sql(
+        f"""
+        SUMMARIZE SELECT * FROM read_parquet('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-02.parquet')
+        -- SUMMARIZE TABLE 'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-02.parquet'
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    _df = mo.sql(
+        f"""
+        SELECT
             hour(tpep_pickup_datetime) AS pickup_hour,
             COUNT(*)                   AS trips,
             ROUND(AVG(fare_amount), 2) AS avg_fare,
             ROUND(AVG(trip_distance), 2) AS avg_distance_mi
         FROM read_parquet('https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-02.parquet')
         GROUP BY pickup_hour
-        USING SAMPLE 10%
+        -- USING SAMPLE 10%
         ORDER BY pickup_hour
         """
     )
@@ -437,25 +460,6 @@ def _(mo):
     mo.md(r"""
     Or a classic demo dataset — **nycflights13** (~336K rows, NYC-relevant):
     """)
-    return
-
-
-@app.cell
-def _(mo):
-    _df = mo.sql(
-        f"""
-        SELECT
-            carrier,
-            COUNT(*)                        AS flights,
-            ROUND(AVG(dep_delay), 1)        AS avg_dep_delay_min,
-            ROUND(AVG(arr_delay), 1)        AS avg_arr_delay_min,
-            ROUND(AVG(distance), 0)         AS avg_distance_mi
-        FROM read_parquet('https://huggingface.co/datasets/nycflights13/nycflights13/resolve/main/data/flights-00000-of-00001-ef7c4339a5b4a98c.parquet')
-        GROUP BY carrier
-        USING SAMPLE 10%
-        ORDER BY flights DESC
-        """
-    )
     return
 
 
